@@ -1,5 +1,5 @@
 from . import db
-
+from datetime import datetime
 
 class News(db.Model):
     """新闻"""
