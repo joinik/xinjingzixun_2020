@@ -1,3 +1,4 @@
+
 var imageCodeId = ""
 
 $(function(){
@@ -6,7 +7,7 @@ $(function(){
 	$('.login_btn').click(function(){
         $('.login_form_con').show();
 	})
-	
+
 	// 点击关闭按钮关闭登录框或者注册框
 	$('.shutoff').click(function(){
 		$(this).closest('form').hide();
@@ -74,7 +75,7 @@ $(function(){
 	var sHash = window.location.hash;
 	if(sHash!=''){
 		var sId = sHash.substring(1);
-		var oNow = $('.'+sId);		
+		var oNow = $('.'+sId);
 		var iNowIndex = oNow.index();
 		$('.option_list li').eq(iNowIndex).addClass('active').siblings().removeClass('active');
 		oNow.show().siblings().hide();
@@ -95,11 +96,11 @@ $(function(){
 		$(this).find('a')[0].click()
 	})
 
-    // TODO 登录表单提交
+    // 登录表单提交
     $(".login_form_con").submit(function (e) {
         e.preventDefault()
-        var mobile = $(".login_form #mobile").val()
-        var password = $(".login_form #password").val()
+        var mobile = $(".login_form #mobile").val();
+        var password = $(".login_form #password").val();
 
         if (!mobile) {
             $("#login-mobile-err").show();
@@ -111,7 +112,6 @@ $(function(){
             return;
         }
 
-        // 发起登录请求
         var params = {
             "mobile": mobile,
             "password": password,
@@ -135,22 +135,22 @@ $(function(){
     })
 
 
-    // TODO 注册按钮点击
+    // 注册按钮点击
     $(".register_form_con").submit(function (e) {
         // 阻止默认提交操作
         e.preventDefault();
 
 		// 取到用户输入的内容
-        var mobile = $("#register_mobile").val();
-        var smscode = $("#smscode").val();
+        var mobile = $("#register_mobile").val();  // 提取手机号
         var imageCode = $("#imagecode").val();  // 提取图片验证码
-        var password = $("#register_password").val()
+        var smscode = $("#smscode").val();  // 提取短信验证码
+        var password = $("#register_password").val();  // 提取密码
 
-		if (!mobile) {
+        if (!mobile) {
             $("#register-mobile-err").show();
             return;
         }
-	     if (!imageCode) {
+        if (!imageCode) {
             $("#image-code-err").html("请填写验证码！");
             $("#image-code-err").show();
             // $(".get_code").attr("onclick", "sendSMSCode();");
@@ -213,13 +213,15 @@ $(function(){
                 }
             }
         })
-
     })
 })
 
-var imageCodeId = ""
 
-// TODO 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
+
+
+
+
+// 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
 function generateImageCode() {
     // 1. 生成一个编号
     // 严格一点的使用uuid保证编号唯一， 不是很严谨的情况下，也可以使用时间戳
@@ -229,7 +231,6 @@ function generateImageCode() {
     var imageCodeUrl = "/passport/image_code?code_id=" + imageCodeId;
     // 3. 设置页面中图片验证码img标签的src属性
     $(".get_pic_code").attr("src", imageCodeUrl)
-
 }
 
 // 发送短信验证码
@@ -251,7 +252,7 @@ function sendSMSCode() {
         return;
     }
 
-    // TODO 发送短信验证码
+    // 发送短信验证码
     var params = {
         "mobile": mobile,
         "image_code": imageCode,

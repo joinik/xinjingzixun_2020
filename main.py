@@ -14,7 +14,8 @@ app = Flask(__name__)
 
 
 # 注册蓝图
-app.register_blueprint(index_blu,passport_blu)
+app.register_blueprint(index_blu)
+app.register_blueprint(passport_blu)
 
 # 加载配配信息
 app.config.from_pyfile("config.ini")
