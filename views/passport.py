@@ -72,3 +72,11 @@ def login():
 		}
 
 	return jsonify (ret)
+
+
+@passport_blu.route("/passport/logout")
+def logout():
+    # 清空登录状态
+    session.clear()
+
+    return redirect(url_for('index_blu.index'))

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,17 +24,17 @@
             <div class="user_login fr">
                 <img src="/static/index/images/person01.png" class="lgin_pic">
                 <a href="#">{{ nick_name }}</a>
-                <a href="#">退出</a>
+                <a href="/passport/logout">退出</a>
             </div>
             {% endif %}
         </div>
     </div>
-    
+
     <div class="conter_con">
         <div class="detail_con fl">
             <h3>{{ news.title }}</h3>
             <div class="detail_about clearfix">
-                <span class="time_souce fl">{{ news.create_time}} 来源： {{ news.source}}</span>
+                <span class="time_souce fl">{{ news.create_time }} 来源: {{ news.source }}</span>
                 <span class="comment fr">3</span>
             </div>
 
@@ -41,11 +42,11 @@
                 {{ news.digest }}
             </p>
 
-            {{ news.content |safe }}
-            
+            {{ news.content | safe}}
+
         <a href="javascript:;" class="collection block-center">收藏</a>
         <a href="javascript:;" class="collected block-center" style="display: none"><span class="out">已收藏</span><span class="over">取消收藏</span></a>
-        
+
 
         <div class="comment_form_logout">
             登录发表你的评论
@@ -63,12 +64,12 @@
         <div class="comment_count">
             4条评论
         </div>
-        
+
         <div class="comment_list_con">
             <div class="comment_list">
                 <div class="person_pic fl">
                     <img src="/static/index/images/worm.jpg" alt="用户图标">
-                </div>    
+                </div>
                 <div class="user_name fl">用户张山</div>
                 <div class="comment_text fl">
                     遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
@@ -86,13 +87,13 @@
                     <textarea  class="reply_input"></textarea>
                     <input type="submit" name="" value="回复" class="reply_sub fr">
                     <input type="reset" name="" value="取消" class="reply_cancel fr">
-                </from>            
+                </from>
             </div>
 
             <div class="comment_list">
                 <div class="person_pic fl">
                     <img src="/static/index/images/worm.jpg" alt="用户图标">
-                </div>    
+                </div>
                 <div class="user_name fl">用户张山</div>
                 <div class="comment_text fl">
                     遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
@@ -104,13 +105,13 @@
                     <textarea  class="reply_input"></textarea>
                     <input type="submit" name="" value="回复" class="reply_sub fr">
                     <input type="reset" name="" value="取消" class="reply_cancel fr">
-                </from>            
+                </from>
             </div>
 
             <div class="comment_list">
                 <div class="person_pic fl">
                     <img src="/static/index/images/worm.jpg" alt="用户图标">
-                </div>    
+                </div>
                 <div class="user_name fl">用户张山</div>
                 <div class="comment_text fl">
                     遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
@@ -122,13 +123,13 @@
                     <textarea  class="reply_input"></textarea>
                     <input type="submit" name="" value="回复" class="reply_sub fr">
                     <input type="reset" name="" value="取消" class="reply_cancel fr">
-                </from>            
+                </from>
             </div>
 
             <div class="comment_list">
                 <div class="person_pic fl">
                     <img src="/static/index/images/worm.jpg" alt="用户图标">
-                </div>    
+                </div>
                 <div class="user_name fl">用户张山</div>
                 <div class="comment_text fl">
                     遏制茅台酒价格过快上涨，多渠道供给，就不一定要买，租茅台酒也可以的，租售同权。开发共有产权茅台酒，让老百姓喝得起茅台酒，饮者有其酒。
@@ -140,11 +141,11 @@
                     <textarea  class="reply_input"></textarea>
                     <input type="submit" name="" value="回复" class="reply_sub fr">
                     <input type="reset" name="" value="取消" class="reply_cancel fr">
-                </from>            
+                </from>
             </div>
         </div>
-            
-            
+
+
         </div>
         <div class="rank_con fr">
             <div class="author_card">
@@ -155,7 +156,7 @@
                 <div class="follows"><span>粉丝</span><b>36</b></div>
                 <a href="javascript:;" class="focus fr">关注</a>
                 <a href="javascript:;" class="focused fr"><span class="out">已关注</span><span class="over">取消关注</span></a>
-            </div>            
+            </div>
             <div class="rank_title">
                 <h3>点击排行</h3>
             </div>
@@ -169,7 +170,7 @@
             </ul>
         </div>
     </div>
-    <div class="footer">        
+    <div class="footer">
         <div class="footer_links">
             <a href="">关于我们</a>
             <span>|</span>
@@ -184,7 +185,7 @@
 电话：010-****888    京ICP备*******8号
         </p>
     </div>
-    
+
     <!-- 登录表单 -->
     <form class="login_form_con">
         <div class="login_form">
@@ -192,11 +193,11 @@
                 <h3>登 录</h3>
                 <a href="javascript:;" class="shutoff"></a>
             </div>
-            <div class="form_group">                
+            <div class="form_group">
                 <input type="text" name="username" autocomplete="off">
                 <div class="input_tip">用户名/手机号</div>
             </div>
-            <div class="form_group">                
+            <div class="form_group">
                 <input type="password" name="password">
                 <div class="input_tip">密码(不少于6位)</div>
             </div>
@@ -205,7 +206,7 @@
         </div>
         <div class="mask"></div>
     </form>
-    
+
     <!-- 注册表单 -->
     <form class="register_form_con">
         <div class="register_form">
@@ -247,3 +248,4 @@
     </form>
 </body>
 </html>
+No newline at end of file
