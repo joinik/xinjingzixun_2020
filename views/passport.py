@@ -38,6 +38,9 @@ def register():
 			"errno": 0,
 			"errmsg": "注册成功..."
 		}
+		# 注册成功之后，立刻认为登录成功，也就说需要进行状态保持
+		session['user_id'] = user.id
+		session['nick_name'] = mobile
 
 	except Exception as ret:
 		print ("---->", ret)
