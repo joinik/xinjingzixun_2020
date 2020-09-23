@@ -125,6 +125,8 @@ $(function(){
             success: function (resp) {
                 if (resp.errno == "0") {
                     // 刷新当前界面
+                    // $("#login-password-err").html(resp.errmsg)
+                    // $("#login-password-err").show()
                     location.reload();
                 }else {
                     $("#login-password-err").html(resp.errmsg)
