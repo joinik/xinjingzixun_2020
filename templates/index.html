@@ -1,4 +1,3 @@
- @@ -1,195 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,16 +22,17 @@
             <li data-cid="5"><a href="javascript:;">公司</a></li>
         </ul>
         {% if not nick_name %}
-        <div class="user_btns fr">
-            <a href="javascript:;" class="login_btn">登录</a> / <a href="javascript:;" class="register_btn">注册</a>
-        </div>
+            <div class="user_btns fr">
+                <a href="javascript:;" class="login_btn">登录</a> / <a href="javascript:;" class="register_btn">注册</a>
+            </div>
         {% else %}
-        <!-- 用户登录后显示下面，隐藏上面 -->
-        <div class="user_login fr">
-            <img src="/static/index/images/person01.png" class="lgin_pic">
-            <a href="#">{{ nick_name }}</a>
-            <a href="/passport/logout">退出</a>
-        </div>
+
+            <!-- 用户登录后显示下面，隐藏上面 -->
+            <div class="user_login fr">
+                <img src="/static/index/images/person01.png" class="lgin_pic">
+                <a href="#">{{ nick_name }}</a>
+                <a href="/passport/logout">退出</a>
+            </div>
         {% endif %}
     </div>
 </div>
@@ -42,7 +42,8 @@
         <li>
             <a href="#" class="news_pic fl"><img src="/static/index/images/news_pic.jpg"></a>
             <a href="#" class="news_title fl">日本史上最大IPO之一要来了：软银计划将手机业务分拆上市软银计划将手机业务分拆上市</a>
-            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
+            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank
+                Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
             <div class="author_info fl">
                 <div class="author fl">
                     <img src="/static/index/images/person.png" alt="author">
@@ -54,7 +55,8 @@
         <li>
             <a href="#" class="news_pic fl"><img src="/static/index/images/news_pic.jpg"></a>
             <a href="#" class="news_title fl">日本史上最大IPO之一要来了：软银计划将手机业务分拆上市</a>
-            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
+            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank
+                Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
             <div class="author_info fl">
                 <div class="source fl">
                     来源：广州日报
@@ -65,7 +67,8 @@
         <li>
             <a href="#" class="news_pic fl"><img src="/static/index/images/news_pic.jpg"></a>
             <a href="#" class="news_title fl">日本史上最大IPO之一要来了：软银计划将手机业务分拆上市</a>
-            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
+            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank
+                Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
             <div class="author_info fl">
                 <div class="author fl">
                     <img src="/static/index/images/person.png" alt="author">
@@ -77,7 +80,8 @@
         <li>
             <a href="#" class="news_pic fl"><img src="/static/index/images/news_pic.jpg"></a>
             <a href="#" class="news_title fl">日本史上最大IPO之一要来了：软银计划将手机业务分拆上市</a>
-            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
+            <a href="#" class="news_detail fl">据日经新闻网，软银计划让旗下核心业务移动手机部门SoftBank
+                Corp.分拆上市，或募资2万亿日元(约180亿美元)。随着软银逐步向投资公司转型，此举旨在给手机业务部门更多自主权。</a>
             <div class="author_info fl">
                 <div class="source fl">
                     来源：广州日报
@@ -92,7 +96,8 @@
         </div>
         <ul class="rank_list">
             {% for new in clicks_top_6_news %}
-                <li><span class="{{ loop.index | show_top_6_news_style }}">{{ loop.index }}</span><a href="#">{{ new.title }}</a></li>
+                <li><span class="{{ loop.index | show_top_6_news_style }}">{{ loop.index }}</span><a
+                        href="#">{{ new.title }}</a></li>
                 {#                {% if loop.index == 1 %}#}
                 {#                    <li><span class="first">{{ loop.index }}</span><a href="#">{{ new.title }}</a></li>#}
                 {#                {% elif loop.index == 2 %}#}

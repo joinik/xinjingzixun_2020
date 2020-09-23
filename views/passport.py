@@ -1,4 +1,4 @@
-from flask import request, jsonify, session
+from flask import request, jsonify, session, redirect, url_for
 from models import db
 from models.index import User
 
@@ -15,7 +15,7 @@ def register():
 	smscode = request.json.get ("smscode")
 
 	# 2. 测试数据
-	print (mobile, password, image_code, smscode)
+	# print (mobile, password, image_code, smscode)
 
 	# 2. 创建一个新的用户
 	# 2.1 先查询是否有这个相同的用户
