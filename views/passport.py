@@ -4,8 +4,9 @@ from models.index import User
 
 from . import passport_blu
 
+
 # 这里存放用passport_blu蓝图装饰的视图函数
-@passport_blu.route("/passport/register", methods=["GET", "POST"])
+@passport_blu.route ("/passport/register", methods=["GET", "POST"])
 def register():
 	# 1. 提取数据
 	mobile = request.json.get ("mobile")
@@ -23,7 +24,6 @@ def register():
 			"errno": 1001,
 			"errmsg": "已经注册..."
 		})
-
 
 	# 2.2 注册用户
 	# 将新用户的数据插入到数据库
@@ -47,5 +47,14 @@ def register():
 			"errmsg": "注册失败..."
 		}
 
+	return jsonify (ret)
 
-	return jsonify(ret)
+
+@passport_blu.route ("/passport/login", methods=["GET", "POST"])
+def login():
+	ret = {
+		"errno": 0,
+		"errmsg": "登录成功"
+	}
+
+	return jsonify (ret)
