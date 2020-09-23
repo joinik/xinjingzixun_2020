@@ -9,19 +9,18 @@ from . import index_blu
 def index():
 	# return "主页index ----"
 	# 查询点击量最多的前6个新闻信息
-	# clicks_top_6_news = db.session.query (News).order_by (-News.clicks).limit (6)
-	try:
-		ret = db.session.query(News).filter(News.id > 3).first()
-		print("开始 ---")
-		print(ret)
-		print("结束了---- ")
-	except Exception:
-		print('-11111')
-		print(ret)
-		return "baocuole "
+
+
 
 	clicks_top_6_news = db.session.query (News).order_by (-News.clicks).limit (6)
-	return render_template ("index.html", clicks_top_6_news=clicks_top_6_news)
+
+	# 查询用户是否已经登录
+	user_id = session.get ("user_id", 0)
+	nick_name = session.get ("nick_name", "")
+
+	return render_template ("index.html", clicks_top_6_news=clicks_top_6_news, nick_name=nick_name)
+
+	# return render_template ("index.html", clicks_top_6_news=clicks_top_6_news)
 
 @index_blu.route("/newslist")
 def category_news():
