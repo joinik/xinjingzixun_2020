@@ -63,3 +63,6 @@ def detail(news_id):
 	nick_name = session.get ("nick_name", "")
 
 	return render_template ("detail.html", news=news, nick_name=nick_name,news_author=news_author)
+
+
+
