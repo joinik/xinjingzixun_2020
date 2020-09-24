@@ -20,6 +20,8 @@ class News (db.Model):
 	category_id = db.Column (db.Integer, db.ForeignKey ("category.id"))
 
 	category = db.relationship ('Category', backref='news')
+	user_id = db.Column (db.Integer, db.ForeignKey ("user.id"))  # 当前新闻的作者id
+	user = db.relationship ('User', backref=db.backref ('news', lazy='dynamic'))
 
 	def to_dict(self):
 		'''
