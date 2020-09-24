@@ -5,7 +5,6 @@ from models.index import User
 from . import passport_blu
 
 
-
 @passport_blu.route ("/passport/register", methods=["GET", "POST"])
 def register():
 	# 1. 提取数据
@@ -77,24 +76,34 @@ def login():
 	return jsonify (ret)
 
 
-@passport_blu.route("/passport/logout")
+@passport_blu.route ("/passport/logout")
 def logout():
-    # 清空登录状态
-    session.clear()
+	# 清空登录状态
+	session.clear ()
 
-    return redirect(url_for('index_blu.index'))
+	return redirect (url_for ('index_blu.index'))
 
 
-@passport_blu.route("/passport/image_code")
+@passport_blu.route ("/passport/image_code")
 def image_code():
-    # 读取一个图片
-    with open("./yanzhengma.png", "rb") as f:
-        image = f.read()
+	# 读取一个图片
+	# with open ("./yanzhengma.png", "rb") as f:
+	# 	image = f.read ()
 
-    # 返回响应内容
-    resp = make_response(image)
+	# 真正的生成一张图片数据
+	from untils.captcha.captcha import captcha
 
-    # 设置内容类型
-    resp.headers['Content-Type'] = 'image/png'
+	# 生成验证码
+	# hash值  验证码值  图片内容
+	name, text, image = captcha.generate_captcha ()
 
-    return resp
+	print ("刚刚生成的验证码：", text)
+
+
+	# 返回响应内容
+	resp = make_response (image)
+
+	# 设置内容类型
+	resp.headers['Content-Type'] = 'image/png'
+
+	return resp
