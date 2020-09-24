@@ -19,7 +19,7 @@ def index():
 	return render_template ("index.html", clicks_top_6_news=clicks_top_6_news, nick_name=nick_name)
 
 
-# return render_template ("index.html", clicks_top_6_news=clicks_top_6_news)
+
 
 @index_blu.route ("/newslist")
 def category_news():
@@ -55,8 +55,11 @@ def detail(news_id):
 	# 提取url中的 参数（数字）
 	news = db.session.query (News).filter (News.id == news_id).first ()
 
+	# 查询这个新闻的作者
+	news_author = news.user
+	news_author.news_num = news_author.news.count ()
 	# 查询用户是否已经登录
 	user_id = session.get ("user_id", 0)
 	nick_name = session.get ("nick_name", "")
 
-	return render_template ("detail.html", news=news, nick_name=nick_name)
+	return render_template ("detail.html", news=news, nick_name=nick_name,news_author=news_author)
