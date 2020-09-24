@@ -16,6 +16,14 @@ def register():
 	# 2. 测试数据
 	# print (mobile, password, image_code, smscode)
 
+	# 验证图片验证码是否争取
+	if session.get ("image_code") != image_code:
+		ret = {
+			"errno": 1003,
+			"errmsg": "重新输入验证码"
+		}
+		return jsonify (ret)
+
 	# 2. 创建一个新的用户
 	# 2.1 先查询是否有这个相同的用户
 	if db.session.query (User).filter (User.mobile == mobile).first ():
@@ -30,6 +38,7 @@ def register():
 	user.nick_name = mobile
 	user.password_hash = password  # 在第2版中会进行更改，到时会变成加密的
 	user.mobile = mobile
+
 	try:
 		db.session.add (user)
 		db.session.commit ()
