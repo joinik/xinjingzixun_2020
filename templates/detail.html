@@ -153,9 +153,13 @@
                 <a href="#" class="author_name">{{ news_author.nick_name }}</a>
                 <div class="author_resume">{{ news_author.signature }}</div>
                 <div class="writings"><span>总篇数</span><b>{{ news_author.news_num }}</b></div>
-                <div class="follows"><span>粉丝数/span><b>{{ news_author.follwer_num }}</b></div>
-                <a href="javascript:;" class="focus fr">关注</a>
+                <div class="follows"><span>粉丝数</span><b>{{ news_author.follwer_num }}</b></div>
+                {#  通过判断 news_author.can_follow 在 关注列表，的里面              #}
+                {% if news_author.can_follow %}
+                    <a href="javascript:;" class="focus fr">关注</a>
+                {% else %}
                 <a href="javascript:;" class="focused fr"><span class="out">已关注</span><span class="over">取消关注</span></a>
+                {% endif %}
             </div>
             <div class="rank_title">
                 <h3>点击排行</h3>
@@ -248,4 +252,3 @@
     </form>
 </body>
 </html>
-No newline at end of file
