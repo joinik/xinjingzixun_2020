@@ -106,6 +106,9 @@ def image_code():
 	# hash值  验证码值  图片内容
 	name, text, image = captcha.generate_captcha ()
 
+	# 通过session的方式，缓存刚刚生成的验证码，否则注册时不知道刚刚生成的是多少
+	session['image_code'] = text
+
 	print ("刚刚生成的验证码：", text)
 
 
