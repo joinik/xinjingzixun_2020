@@ -156,9 +156,9 @@
                 <div class="follows"><span>粉丝数</span><b>{{ news_author.follwer_num }}</b></div>
                 {#  通过判断 news_author.can_follow 在 关注列表，的里面              #}
                 {% if news_author.can_follow %}
-                    <a href="javascript:;" class="focus fr">关注</a>
+                    <a href="javascript:;" class="focus fr" data-user-id="{{ news_author.id }}">关注</a>
                 {% else %}
-                <a href="javascript:;" class="focused fr"><span class="out">已关注</span><span class="over">取消关注</span></a>
+                    <a href="javascript:;" class="focused fr"><span class="out">已关注</span><span class="over">取消关注</span></a>
                 {% endif %}
             </div>
             <div class="rank_title">
