@@ -1,5 +1,9 @@
-from flask import jsonify
 
+
+from flask import jsonify, request, session
+
+from models import db
+from models.index import User, Follow
 from . import user_blu
 
 
@@ -11,8 +15,40 @@ def xxx():
 	# 3. 判断之前是否已经关注过
 	# 4. 如果未关注，则进行关注
 
-	ret = {
-		"errno":0,
-		"errmsg": "关注成功"
-	}
-	return jsonify(ret)
+	# 1. 提取当前作者的id
+	news_author_id = request.json.get("user_id")
+
+	# 2. 提取当前登录用户的id
+	user_id = session.get("user_id")
+
+	# 3. 判断之前是否已经关注过
+	news_author = db.session.query(User).filter(User_id == news_author_id).first()
+
+	if user_id in [x.id for x in news_author.followers]:
+		return jsonify({
+			"errno":3001
+			"errmsg":"已经关注了，请勿重复关注"
+		})
+
+	# 4. 如果未关注，则进行关注
+	try:
+		follow = Follow(followed_id=news_author_id, follower_id=user_id)
+		db.session.add(follow)
+		db.commit()
+		ret = {
+			"errno": 0
+			"errmsg": "关注成功"
+		}
+		return jsonify(ret)
+
+
+	except Exception as ret:
+		ret = {
+			"errno": 3003,
+			"errmsg": "关注失败"
+		}
+		return jsonify (ret)
+
+
+
+
