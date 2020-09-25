@@ -121,3 +121,6 @@ def image_code():
 	resp.headers['Content-Type'] = 'image/png'
 
 	return resp
+
+
+
