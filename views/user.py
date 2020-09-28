@@ -88,6 +88,12 @@ def user_center():
 def user_base_info():
 	return render_template ("user_base_info.html")
 
-@user_blu.route("/user/basic", methods=["POST"])
+
+@user_blu.route ("/user/basic", methods=["POST"])
 def user_basic():
-    return "测试..."
+	ret = {
+		"errno": 0,
+		"errmsg": "修改成功..."
+	}
+	return jsonify (ret)
+
