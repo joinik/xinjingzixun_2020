@@ -83,7 +83,7 @@ def follow():
 def user_center():
 
 	# 获取当前用户的信息
-	user_id = session.get ("nick_name")
+	nick_name = session.get ("nick_name")
 
 	return render_template ("user.html", nick_name=nick_name)
 
