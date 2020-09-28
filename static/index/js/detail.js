@@ -367,10 +367,11 @@ $(function(){
                     $(".focus").hide();
                     // 显示`已关注`按钮
                     $(".focused").show();
-
                     // 设置页面上作者粉丝数量
                     var count = $(".follows b").html();
                     $(".follows b").html(parseInt(count)+1);
+                    // 刷新当前界面
+                    location.reload()
                 }
                 else if (resp.errno == "3002") {
                     // 用户未登录
@@ -396,7 +397,7 @@ $(function(){
             "action": action
         };
 
-        // 请求关注当前新闻作者
+        // 请求当前新闻作关注者
         $.ajax({
             url: "/user/follow",
             type: "post",
@@ -413,13 +414,16 @@ $(function(){
                     // 设置页面上作者粉丝数量
                     var count = $(".follows b").html();
                     $(".follows b").html(parseInt(count)-1);
+                    // 刷新当前界面
+                    location.reload()
+                    location.reload()
                 }
                 else if (resp.errno == "3002") {
                     // 用户未登录
                     $(".login_form_con").show();
                 }
                 else {
-                    // `关注`失败
+                    // ``失败关注
                     alert(resp.errmsg);
                 }
             }

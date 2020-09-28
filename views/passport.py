@@ -53,7 +53,7 @@ def register():
 		session['nick_name'] = mobile
 
 	except Exception as ret:
-		print ("---->", ret)
+		# print ("---->", ret)
 		db.session.rollback ()  # 如果在将用户的信
 		ret = {
 			"errno": 1002,

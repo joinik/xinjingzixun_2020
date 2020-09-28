@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify, session
 from models import db
-from models.index import News
+from models.index import News, User
 
 from . import index_blu
 
@@ -63,9 +63,31 @@ def detail(news_id):
 	user_id = session.get ("user_id", 0)
 	nick_name = session.get ("nick_name", "")
 
+
+	# password = request.json.get ("password")
+
+	# 2. 查询，如果存在表示登录成功，否则失败
+	# user = db.session.query (User).filter (User.mobile == nick_name, User.user.id == user_id).first ()
+	# if user:
+	# 	ret = {
+	# 		"errno": 0,
+	# 		"errmsg": "登录成功"
+	# 	}
+	# 	return jsonify (ret)
+	#
+	# else:
+	# 	ret = {
+	# 		"errno": 2001,
+	# 		"errmsg": "用户名或者密码错误"
+	# 	}
+	#
+	# 	return jsonify (ret)
+
+
+
 	# 计算当前登录用户是否已经关注了这个新闻的作者
-	print(" ===== 1111111111")
-	print(type(news_author.followers))
+	# print(" ===== 1111111111")
+
 	news_author_followers_id = [x.id for x in news_author.followers]
 	if user_id in news_author_followers_id:
 		news_author.can_follow = False  # 已经关注了作者，就不能在关注了
