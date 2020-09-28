@@ -81,7 +81,11 @@ def follow():
 
 @user_blu.route ("/user/center")
 def user_center():
-	return render_template ("user.html")
+
+	# 获取当前用户的信息
+	user_id = session.get ("nick_name")
+
+	return render_template ("user.html", nick_name=nick_name)
 
 
 @user_blu.route ("/user/user_base_info")
