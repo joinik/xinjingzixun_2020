@@ -416,7 +416,6 @@ $(function(){
                     $(".follows b").html(parseInt(count)-1);
                     // 刷新当前界面
                     location.reload()
-                    location.reload()
                 }
                 else if (resp.errno == "3002") {
                     // 用户未登录

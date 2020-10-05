@@ -1,3 +1,6 @@
+import hashlib
+import os
+
 from flask import jsonify, request, session, render_template, redirect, url_for
 
 from models import db
@@ -17,10 +20,16 @@ def follow():
 	news_action = request.json.get ("action")
 	# 1. 提取当前作者的id
 	news_author_id = request.json.get ("user_id")
-	print (news_author_id, "------->1")
+
 	# 2. 提取当前登录用户的id
 	user_id = session.get ("user_id")
-	print (user_id, "------->2")
+
+	if not user_id:
+		return jsonify ({
+			"errno": 3002,
+			"errmsg": "请用户您先进行登录----"
+		})
+
 
 	if news_action == "do":
 
@@ -63,7 +72,7 @@ def follow():
 			db.session.commit ()
 
 			ret = {
-				"error": 0,
+				"errno": 0,
 				"errmsg": "取消关注成功"
 			}
 
@@ -72,7 +81,7 @@ def follow():
 		except Exception as ret:
 			db.session.rollback ()
 			ret = {
-				"error": 3004,
+				"errno": 3004,
 				"errmsg": "取消关注失败..."
 			}
 
@@ -169,3 +178,53 @@ def user_password():
 
 	# 4. 返回json
 	return jsonify (ret)
+
+
+@user_blu.route("/user/user_pic_info")
+def user_pic_info():
+	return render_template("user_pic_info.html")
+
+
+@user_blu.route("/user/avatar", methods=["POST"])
+def user_avatar():
+	print (request.files)
+	print("这是啥——-------")
+	f = request.files.get ("avatar")
+
+	if f:
+		print (f.filename)
+		# 存储到哪个路径呢？文件名叫什么呢？
+		file_hash = hashlib.md5 ()
+		file_hash.update (f.filename.encode ("utf-8"))
+		file_name = file_hash.hexdigest () + f.filename[f.filename.rfind ("."):]
+
+		local_file_path = os.path.join ("/static/index/images/sep/", file_name)
+		# file_path = /Users/wangmingdong/Desktop/个人简历7/app/static/upload/images/'dfa72f3bf97b709023b6136d4e5a0566.png
+		file_path = os.path.join ("/static/index/images/sep/",
+		                          file_name)  # f.filename是你刚刚在浏览器选择的那个上传的图片的名字
+
+		print(file_path)
+
+
+		f.save (file_path)  # a/b/c/123.png
+		# 3. 将数据库中对应head_image字段值改为 刚刚保存的图片的路径
+
+		user = db.session.query(User).filter(User.id == session.get("user_id")).first()
+
+		user.avatar_url = local_file_path
+		db.session.commit ()
+
+		ret = {
+			"errno": 0,
+			"errmsg": "上传头像成功",
+			"avatar_url": local_file_path
+		}
+
+		return jsonify (ret)
+	else:
+		ret = {
+			"errno": 4005,
+			"errmsg": "上传头像失败"
+		}
+
+		return jsonify (ret)
