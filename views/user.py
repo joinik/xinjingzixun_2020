@@ -1,5 +1,6 @@
 import hashlib
 import os
+import time
 
 from flask import jsonify, request, session, render_template, redirect, url_for
 
@@ -195,7 +196,8 @@ def user_avatar():
 		print (f.filename)
 		# 存储到哪个路径呢？文件名叫什么呢？
 		file_hash = hashlib.md5 ()
-		file_hash.update (f.filename.encode ("utf-8"))
+		# file_hash.update (f.filename.encode ("utf-8"))
+		file_hash.update ((f.filename+time.ctime()).encode ("utf-8"))
 		file_name = file_hash.hexdigest () + f.filename[f.filename.rfind ("."):]
 
 		local_file_path = os.path.join ("/static/index/images/sep/", file_name)
@@ -205,8 +207,8 @@ def user_avatar():
 
 		print(file_path)
 
-
-		f.save (file_path)  # a/b/c/123.png
+		# 保存路径
+		f.save (file_path)  # /static/index/images/sep/fe5df232cafa4c4e0f1a0294418e5660.jpg
 		# 3. 将数据库中对应head_image字段值改为 刚刚保存的图片的路径
 
 		user = db.session.query(User).filter(User.id == session.get("user_id")).first()
