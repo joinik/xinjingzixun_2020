@@ -6,7 +6,7 @@ from flask import jsonify, request, session, render_template, redirect, url_for
 
 from models import db
 from models.index import User, Follow
-from . import user_blu
+from . import user_blu, index_blu
 
 
 @user_blu.route ("/user/follow", methods=["POST"])
@@ -31,7 +31,6 @@ def follow():
 			"errmsg": "请用户您先进行登录----"
 		})
 
-
 	if news_action == "do":
 
 		# 3. 判断之前是否已经关注过
@@ -54,6 +53,7 @@ def follow():
 				"errmsg": "关注成功"
 			}
 
+
 			return jsonify (ret)
 
 
@@ -67,8 +67,10 @@ def follow():
 
 	else:
 		try:
-			follow = db.session.query (Follow).filter (Follow.followed_id == news_author_id,
-			                                           Follow.follower_id == user_id).first ()
+			follow = db.session.query (Follow).filter (Follow.followed_id == user_id,
+			                                           Follow.follower_id == news_author_id).first ()
+
+			print("取消 ------------")
 			db.session.delete (follow)
 			db.session.commit ()
 
@@ -91,16 +93,16 @@ def follow():
 
 @user_blu.route ("/user/center")
 def user_center():
-
-
 	# 获取当前用户的信息
 	nick_name = session.get ("nick_name")
 
 	# 如果用户未登录，禁止访问用户中心
 	if not nick_name:
 		return redirect (url_for ('index_blu.index'))
+	user_id = session.get ("user_id")
+	user = db.session.query (User).filter (User.id == user_id).first ()
 
-	return render_template ("user.html", nick_name=nick_name)
+	return render_template ("user.html", nick_name=nick_name, user=user)
 
 
 @user_blu.route ("/user/user_base_info")
@@ -146,7 +148,8 @@ def user_basic():
 def user_pass_info():
 	return render_template ("user_pass_info.html")
 
-@user_blu.route("/user/password", methods=["POST"])
+
+@user_blu.route ("/user/password", methods=["POST"])
 def user_password():
 	new_password = request.json.get ("new_password")
 	old_password = request.json.get ("old_password")
@@ -181,15 +184,17 @@ def user_password():
 	return jsonify (ret)
 
 
-@user_blu.route("/user/user_pic_info")
+@user_blu.route ("/user/user_pic_info")
 def user_pic_info():
-	return render_template("user_pic_info.html")
+	user_id = session.get ("user_id")
+	user = db.session.query (User).filter (User.id == user_id).first ()
+	return render_template ("user_pic_info.html", user=user)
 
 
-@user_blu.route("/user/avatar", methods=["POST"])
+@user_blu.route ("/user/avatar", methods=["POST"])
 def user_avatar():
 	print (request.files)
-	print("这是啥——-------")
+	print ("这是request.files——-------")
 	f = request.files.get ("avatar")
 
 	if f:
@@ -197,36 +202,62 @@ def user_avatar():
 		# 存储到哪个路径呢？文件名叫什么呢？
 		file_hash = hashlib.md5 ()
 		# file_hash.update (f.filename.encode ("utf-8"))
-		file_hash.update ((f.filename+time.ctime()).encode ("utf-8"))
+		file_hash.update ((f.filename + time.ctime ()).encode ("utf-8"))
 		file_name = file_hash.hexdigest () + f.filename[f.filename.rfind ("."):]
+		avatar_url = file_name
 
-		local_file_path = os.path.join ("/static/index/images/sep/", file_name)
-		# file_path = /Users/wangmingdong/Desktop/个人简历7/app/static/upload/images/'dfa72f3bf97b709023b6136d4e5a0566.png
-		file_path = os.path.join ("/static/index/images/sep/",
+		local_file_path = os.path.join ("./static/index/images/sep/", file_name)
+
+		# file_path = /static/index/upload/14729c72f17c584e91ced13c0f7606b3.jpg
+		file_path = os.path.join ("./static/upload/",
 		                          file_name)  # f.filename是你刚刚在浏览器选择的那个上传的图片的名字
 
-		print(file_path)
+
 
 		# 保存路径
-		f.save (file_path)  # /static/index/images/sep/fe5df232cafa4c4e0f1a0294418e5660.jpg
+		f.save (file_path)  # /static/index/upload/14729c72f17c584e91ced13c0f7606b3.jpg
 		# 3. 将数据库中对应head_image字段值改为 刚刚保存的图片的路径
 
-		user = db.session.query(User).filter(User.id == session.get("user_id")).first()
+		user = db.session.query (User).filter (User.id == session.get ("user_id")).first ()
 
-		user.avatar_url = local_file_path
+		# user.avatar_url = local_file_path
+		user.avatar_url = avatar_url
 		db.session.commit ()
 
 		ret = {
 			"errno": 0,
 			"errmsg": "上传头像成功",
-			"avatar_url": local_file_path
+			# "avatar_url": file_path
 		}
 
-		return jsonify (ret)
+
 	else:
 		ret = {
 			"errno": 4005,
 			"errmsg": "上传头像失败"
 		}
 
-		return jsonify (ret)
+	return jsonify (ret)
+
+
+@user_blu.route ("/user/user_follow")
+def user_follow():
+
+	user_id = session.get("user_id")
+
+	if not user_id:
+		return redirect(url_for('index_blu.index'))
+
+	user = db.session.query(User).filter(User.id==user_id).first()
+	if not user:
+		return "非法操作"
+
+	page = int(request.args.get('page', 1))
+	paginate = user.followers.paginate(page, 2, False)
+
+	return render_template("user_follow.html", user = user, paginate= paginate)
+
+
+# @user_blu.route ("/user/user_follow")
+# def user_follow():
+# 	return render_template("user_follow.html")

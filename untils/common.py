@@ -7,3 +7,7 @@ def show_top_6_news_style(index):
 		return "third"
 	else:
 		return " "
+
+
+def follow(user):
+	pass

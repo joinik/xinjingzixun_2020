@@ -84,10 +84,6 @@ def detail(news_id):
 	# 	return jsonify (ret)
 
 
-
-	# 计算当前登录用户是否已经关注了这个新闻的作者
-	# print(" ===== 1111111111")
-
 	news_author_followers_id = [x.id for x in news_author.followers]
 	if user_id in news_author_followers_id:
 		news_author.can_follow = False  # 已经关注了作者，就不能在关注了

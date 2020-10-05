@@ -12,7 +12,7 @@ $(function () {
         var signature = $("#signature").val();
         var nick_name = $("#nick_name").val();
         // 获取用户选择的性别
-        var gender = $(".gender").val();
+        var gender = $(".gender:checked").val();
 
         if (!nick_name) {
             alert('请输入昵称');
@@ -28,7 +28,7 @@ $(function () {
             "nick_name": nick_name,
             "gender": gender
         };
-
+        
         // TODO 请求修改用户基本信息
         $.ajax({
             url: "/user/basic",

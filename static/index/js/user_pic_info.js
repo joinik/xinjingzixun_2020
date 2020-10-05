@@ -8,7 +8,7 @@ $(function () {
     $(".pic_info").submit(function (e) {
         // 阻止表单默认提交行为
         e.preventDefault();
-        // alert("dsfs")
+
         //TODO 上传头像
         // 模拟表单的提交
         $(this).ajaxSubmit({
@@ -27,6 +27,7 @@ $(function () {
                     // 设置父窗口中用户头像img的src属性
                     $(".user_center_pic>img", parent.document).attr("src", avatar_url);
                     $(".user_login>img", parent.document).attr("src", avatar_url);
+                    location.reload();
                 }
                 else {
                     // `上传头像`失败
