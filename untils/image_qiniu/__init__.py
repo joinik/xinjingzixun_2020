@@ -15,6 +15,9 @@ q = Auth(access_key, secret_key)
 # 要上传的空间
 bucket_name = 'Bucket_Name'
 
+# url前缀
+url_prefix = "http://qhqapfhv2.hn-bkt.clouddn.com/"
+
 def upload_image_to_qiniu(localfile, key):
     """
     上传图片到七牛云
@@ -36,7 +39,7 @@ def upload_image_to_qiniu(localfile, key):
     assert ret['key'] == key
     assert ret['hash'] == etag(localfile)
 
-    return True
+    return url_prefix + key
 
 
 if __name__ == "__main__":

@@ -205,7 +205,7 @@ def user_avatar():
 		# file_hash.update (f.filename.encode ("utf-8"))
 		file_hash.update ((f.filename + time.ctime ()).encode ("utf-8"))
 		file_name = file_hash.hexdigest () + f.filename[f.filename.rfind ("."):]
-		avatar_url = file_name
+
 
 		local_file_path = os.path.join ("./static/index/images/sep/", file_name)
 
@@ -220,12 +220,12 @@ def user_avatar():
 		# 3. 将数据库中对应head_image字段值改为 刚刚保存的图片的路径
 
 		# 将这个图片上传到七牛云
-		upload_image_to_qiniu (file_path, file_name)
+		qiniu_avatar_url = upload_image_to_qiniu (file_path, file_name)
 
 		user = db.session.query (User).filter (User.id == session.get ("user_id")).first ()
 
 		# user.avatar_url = local_file_path
-		user.avatar_url = avatar_url
+		user.avatar_url = qiniu_avatar_url
 		db.session.commit ()
 
 		ret = {
