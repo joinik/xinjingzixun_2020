@@ -83,8 +83,8 @@ class User(db.Model):
     )
     followers = db.relationship ('User',
                                  secondary=Follow.__tablename__,
-                                 primaryjoin=(id == Follow.followed_id),
-                                 secondaryjoin=(id == Follow.follower_id),
+                                 primaryjoin=(id == Follow.followed_id),  # 关注的人，
+                                 secondaryjoin=(id == Follow.follower_id),  # 被关注的人
                                  backref=db.backref ('followed', lazy='dynamic'),
                                  lazy='dynamic')
 
