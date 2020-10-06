@@ -262,6 +262,6 @@ def user_follow():
 	return render_template("user_follow.html", user = user, paginate= paginate)
 
 
-# @user_blu.route ("/user/user_follow")
-# def user_follow():
-# 	return render_template("user_follow.html")
+@user_blu.route("/user/user_collection")
+def user_collection():
+	return render_template("user_collection.html")
