@@ -5,7 +5,7 @@ import time
 from flask import jsonify, request, session, render_template, redirect, url_for
 
 from models import db
-from models.index import User, Follow, Category
+from models.index import User, Follow, Category, News
 from untils.image_qiniu import upload_image_to_qiniu
 from . import user_blu, index_blu
 
@@ -286,7 +286,17 @@ def new_release():
 	f = request.files.get ("index_image")
 
 	print (title, category, digest, content, f)
+	news = News ()
+	news.title = title
+	news.category_id = category
+	news.source = "个人发布"
+	news.digest = digest
+	news.content = content
+	news.user_id = session.get ("user_id")
+	news.status = 1  # 1代表 正在审核
 
+	db.session.add (news)
+	db.session.commit ()
 	ret = {
 		"errno": 0,
 		"errmsg": "成功"
