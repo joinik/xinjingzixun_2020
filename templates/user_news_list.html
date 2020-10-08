@@ -14,8 +14,8 @@
     <div class="news_list">
         <h3>新闻列表</h3>
         <ul class="article_list">
-            {% for one_news in news %}
-                <li><a href="#">{{ one_news.title }}</a><em class="{{ one_news.status|show_news_status_style_name }}">{{ one_news.status|show_news_status_name }}</em><span>{{ one_news.create_time }}</span></li>
+            {% for one_news in news_paginate.items %}
+            <li><a href="#">{{ one_news.title }}</a><em class="{{ one_news.status|show_news_status_style_name }}">{{ one_news.status|show_news_status_name }}</em><span>{{ one_news.create_time }}</span></li>
             {% endfor %}
 {#            <li>#}
 {#                <a href="#">智能音箱“不智能”：这次轮到三星语音助手Bixby被吐槽了</a>#}
@@ -31,15 +31,15 @@
 
             $(function(){
                 $("#pagination").pagination({
-                    currentPage: 2,
-                    totalPage: 3,
+                    currentPage: {{ news_paginate.page }},
+                    totalPage: {{ news_paginate.pages }},
                     callback: function(current) {
-                        alert('ok!');
+                        window.location.href="?page="+current
                     }
                 });
             });
         </script>
-       
+
     </div>
 </body>
 </html>

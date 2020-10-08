@@ -326,5 +326,5 @@ def user_news_list():
 	user_id = session.get ("user_id")
 	user = db.session.query (User).filter (User.id == user_id).first ()
 	# 获取当前用户的所有新闻
-	news = user.news
-	return render_template ("user_news_list.html", news=news)
+	news_paginate = user.news.paginate(page, 1, False)
+	return render_template ("user_news_list.html", news=news_paginate)
