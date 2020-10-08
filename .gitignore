@@ -2,3 +2,5 @@ idea/*.
 .idea
 *.pyc
 cappic.py
+migrations
+static/upload/

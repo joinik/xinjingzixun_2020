@@ -5,7 +5,7 @@ import time
 from flask import jsonify, request, session, render_template, redirect, url_for
 
 from models import db
-from models.index import User, Follow
+from models.index import User, Follow, Category
 from untils.image_qiniu import upload_image_to_qiniu
 from . import user_blu, index_blu
 
@@ -54,7 +54,6 @@ def follow():
 				"errmsg": "关注成功"
 			}
 
-
 			return jsonify (ret)
 
 
@@ -71,7 +70,7 @@ def follow():
 			follow = db.session.query (Follow).filter (Follow.followed_id == user_id,
 			                                           Follow.follower_id == news_author_id).first ()
 
-			print("取消 ------------")
+			print ("取消 ------------")
 			db.session.delete (follow)
 			db.session.commit ()
 
@@ -208,14 +207,11 @@ def user_avatar():
 		file_hash.update ((f.filename + time.ctime ()).encode ("utf-8"))
 		file_name = file_hash.hexdigest () + f.filename[f.filename.rfind ("."):]
 
-
 		local_file_path = os.path.join ("./static/index/images/sep/", file_name)
 
 		# file_path = /static/index/upload/14729c72f17c584e91ced13c0f7606b3.jpg
 		file_path = os.path.join ("./static/upload/",
 		                          file_name)  # f.filename是你刚刚在浏览器选择的那个上传的图片的名字
-
-
 
 		# 保存路径
 		f.save (file_path)  # /static/index/upload/14729c72f17c584e91ced13c0f7606b3.jpg
@@ -225,7 +221,6 @@ def user_avatar():
 		qiniu_avatar_url = upload_image_to_qiniu (file_path, file_name)
 
 		user = db.session.query (User).filter (User.id == session.get ("user_id")).first ()
-
 
 		user.avatar_url = qiniu_avatar_url
 		db.session.commit ()
@@ -248,23 +243,22 @@ def user_avatar():
 
 @user_blu.route ("/user/user_follow")
 def user_follow():
-
-	user_id = session.get("user_id")
+	user_id = session.get ("user_id")
 
 	if not user_id:
-		return redirect(url_for('index_blu.index'))
+		return redirect (url_for ('index_blu.index'))
 
-	user = db.session.query(User).filter(User.id==user_id).first()
+	user = db.session.query (User).filter (User.id == user_id).first ()
 	if not user:
 		return "非法操作"
 
-	page = int(request.args.get('page', 1))
-	paginate = user.followers.paginate(page, 2, False)
+	page = int (request.args.get ('page', 1))
+	paginate = user.followers.paginate (page, 2, False)
 
-	return render_template("user_follow.html", user = user, paginate= paginate)
+	return render_template ("user_follow.html", user=user, paginate=paginate)
 
 
-@user_blu.route("/user/user_collection")
+@user_blu.route ("/user/user_collection")
 def user_collection():
 	# 获取页码
 	page = int (request.args.get ("page", 1))
@@ -275,3 +269,27 @@ def user_collection():
 
 	paginate = user.collection_news.paginate (page, 1, False)
 	return render_template ("user_collection.html", paginate=paginate)
+
+
+@user_blu.route ("/user/user_news_release")
+def user_news_release():
+	category_list = db.session.query (Category).filter (Category.id != 1).all ()
+	return render_template ("user_news_release.html", category_list=category_list)
+
+
+@user_blu.route ("/user/release", methods=["POST"])
+def new_release():
+	title = request.form.get ("title")
+	category = request.form.get ("category")
+	digest = request.form.get ("digest")
+	content = request.form.get ("content")
+	f = request.files.get ("index_image")
+
+	print (title, category, digest, content, f)
+
+	ret = {
+		"errno": 0,
+		"errmsg": "成功"
+	}
+
+	return jsonify (ret)
