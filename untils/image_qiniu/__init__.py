@@ -1,4 +1,4 @@
- @@ -0,0 +1,29 @@
+
 # -*- coding: utf-8 -*-
 # flake8: noqa
 
@@ -6,17 +6,17 @@ from qiniu import Auth, put_file, etag
 import qiniu.config
 
 # 需要填写你的 Access Key 和 Secret Key
-access_key = 'QNUcQDIywEgcP_zvaO0XfDZxwKwpbsbRVXN7BTPe'
-secret_key = 'y2PBSlCykoz3PU3du3lt7epERRTbVQQ1HrgW27-G'
+access_key = 'CtEvv35fSPL-B38ccrW8rnSst3Q-D1dEqaclv3PV'
+secret_key = 'UbPT4VFrZk4EOnyz4EzWd0wfehPQ6o-GO3yyjlet'
 
 # 构建鉴权对象
 q = Auth(access_key, secret_key)
 
 # 要上传的空间
-bucket_name = 'Bucket_Name'
+bucket_name = 'xjzixun-2020-pic'
 
 # url前缀
-url_prefix = "http://qhqapfhv2.hn-bkt.clouddn.com/"
+url_prefix = "http://qhrfjrmfs.hn-bkt.clouddn.com/"
 
 def upload_image_to_qiniu(localfile, key):
     """

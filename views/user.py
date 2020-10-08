@@ -170,10 +170,12 @@ def user_password():
 	if user:
 		user.password_hash = new_password
 		db.session.commit ()
+
 		ret = {
 			"errno": 0,
 			"errmsg": "修改成功"
 		}
+
 
 	else:
 		ret = {
@@ -224,7 +226,7 @@ def user_avatar():
 
 		user = db.session.query (User).filter (User.id == session.get ("user_id")).first ()
 
-		# user.avatar_url = local_file_path
+
 		user.avatar_url = qiniu_avatar_url
 		db.session.commit ()
 
