@@ -39,14 +39,12 @@ def category_news():
 		# 	                                                                              per_page=int (per_page),
 		# 	                                                                              error_out=False)
 
-		paginate = db.session.query (News).order_by (-News.create_time).paginate (page=int (page),
-		                                                                          per_page=int (per_page),
-		                                                                          error_out=False)
+		paginate = db.session.query (News).filter (News.status == 0).order_by (-News.create_time).paginate (
+			page=int (page), per_page=int (per_page), error_out=False)
 	else:
 		cid += 1  # 由于测试数据分类中从0开始，而数据库中是从1开始的，所以用户点击的1实际上是2
-		paginate = db.session.query (News).filter (News.category_id == cid).order_by (-News.create_time).paginate (
-			page=int (page), per_page=int (per_page), error_out=False)
-
+		paginate = db.session.query (News).filter (News.category_id == cid, News.status == 0).order_by (
+			-News.create_time).paginate (page=int (page), per_page=int (per_page), error_out=False)
 
 	ret = {
 		"totalPage": paginate.pages,  # 总页数
