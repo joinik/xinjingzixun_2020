@@ -23,7 +23,8 @@ class News (db.Model):
 
 	user_id = db.Column (db.Integer, db.ForeignKey ("user.id"))  # 当前新闻的作者id
 	user = db.relationship ('User', backref=db.backref ('news', lazy='dynamic'))
-
+	# 当前新闻的所有评论
+	comments = db.relationship ("Comment", lazy="dynamic")
 	def to_dict(self):
 		'''
 		转换成字典，
