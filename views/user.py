@@ -295,6 +295,7 @@ def new_release():
 		news.user_id = session.get ("user_id")
 		news.status = 1  # 1代表 正在审核
 
+		qiniu_image_url = ''
 		if f:
 			file_hash = hashlib.md5 ()
 			file_hash.update ((f.filename + time.ctime ()).encode ("utf-8"))
@@ -308,7 +309,9 @@ def new_release():
 
 			# 将这个图片上传到七牛云
 			qiniu_image_url = upload_image_to_qiniu (path_file_name, file_name)
-			news.index_image_url = qiniu_image_url
+
+
+		news.index_image_url = qiniu_image_url
 
 		db.session.add (news)
 		db.session.commit ()
@@ -320,11 +323,12 @@ def new_release():
 		return jsonify (ret)
 
 
-@user_blu.route ("/user/user_news_list.html")
+@user_blu.route ("/user/user_news_list")
 def user_news_list():
 	# 查询当前用户
+	page = int(request.args.get("page", 1))
 	user_id = session.get ("user_id")
 	user = db.session.query (User).filter (User.id == user_id).first ()
 	# 获取当前用户的所有新闻
-	news_paginate = user.news.paginate(page, 1, False)
-	return render_template ("user_news_list.html", news=news_paginate)
+	news_paginate = user.news.paginate(page, 6, False)
+	return render_template ("user_news_list.html", news_paginate=news_paginate)
