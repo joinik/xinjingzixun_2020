@@ -58,12 +58,15 @@ def news_comment():
 	content = request.json.get ("content")
 	news_id = request.json.get ("news_id")
 	user_id = session.get ("user_id")
+	parent_id = request.json.get ("parent_id")
 
 	# 2. 保存到数据库
 	new_comment = Comment ()
 	new_comment.news_id = news_id
 	new_comment.user_id = user_id
 	new_comment.content = content
+	new_comment.parent_id = parent_id
+
 	db.session.add (new_comment)
 	db.session.commit ()
 
