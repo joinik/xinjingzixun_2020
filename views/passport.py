@@ -1,6 +1,7 @@
 from flask import request, jsonify, session, redirect, url_for, make_response
 from models import db
 from models.index import User
+from untils.sms_aliyun import send_msg_to_phone
 
 from . import passport_blu
 
@@ -17,8 +18,8 @@ def register():
 	# print (mobile, password, image_code, smscode)
 
 	# 验证图片验证码是否争取
-	se_image_code = session.get ("image_code").lower()
-	image_code = image_code.lower()
+	se_image_code = session.get ("image_code").lower ()
+	image_code = image_code.lower ()
 	if se_image_code != image_code:
 		ret = {
 			"errno": 1003,
@@ -113,7 +114,6 @@ def image_code():
 
 	print ("刚刚生成的验证码：", text)
 
-
 	# 返回响应内容
 	resp = make_response (image)
 
@@ -123,4 +123,37 @@ def image_code():
 	return resp
 
 
+@passport_blu.route ("/passport/smscode", methods=["POST"])
+def smscode():
+	# 1. 提取数据
+	image_code = request.json.get ("image_code")
+	mobile = request.json.get ("mobile")
 
+	# 2. 校验图片验证码是否正确
+	image_code_session = session.get ("image_code")
+	print ("输入的验证码", image_code)
+	print ("生成的验证码", image_code_session)
+	if image_code.lower () != image_code_session.lower ():
+		ret = {
+			"errno": 4004,
+			"errmsg": "图片验证码错误..."
+		}
+		return jsonify (ret)
+
+	# 3. 生成一个随机的6位数
+	sms_code = str (random.randint (100000, 999999))
+	print ("短信验证码是:", sms_code)
+
+	# 4. 存储到session中
+	session['sms_code'] = sms_code
+
+	# 5. 通过短信发送这个6位数
+	send_msg_to_phone (mobile, sms_code)
+
+
+	ret = {
+		"errno": 0,
+		"errmsg": "发送短信验证码成功..."
+	}
+
+	return jsonify (ret)
