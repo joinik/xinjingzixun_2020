@@ -39,6 +39,7 @@ $(function(){
                     $(".collection").hide();
                     // 显示`已收藏`按钮
                     $(".collected").show();
+                    location.reload();
                 }
                 else if (resp.errno == "5002") {
                     // 用户登录
@@ -82,6 +83,7 @@ $(function(){
                     $(".collection").show();
                     // 隐藏`已收藏`按钮
                     $(".collected").hide();
+                    location.reload();
                 }
                 else if (resp.errno == "4101") {
                     // 用户登录

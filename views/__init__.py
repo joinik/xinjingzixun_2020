@@ -7,4 +7,4 @@ news_blu = Blueprint("news_blu", __name__)
 from . import index
 from . import passport
 from . import user
-
+from . import news
