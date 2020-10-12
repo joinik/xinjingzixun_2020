@@ -93,6 +93,7 @@ $(function(){
 		}
 		$(this).addClass('active').siblings().removeClass('active');
 		//
+		//
 		// $(this).find('a')[0].click()
 	})
 
@@ -151,9 +152,11 @@ $(function(){
             return;
         }
         if (!imageCode) {
-            $("#image-code-err").html("请填写验证码！");
-            $("#image-code-err").show();
-            // $(".get_code").attr("onclick", "sendSMSCode();");
+            $("#register-mobile-err").html("");
+            $("#register-mobile-err").hide();
+            $("#register-image-code-err").html("请填写图片验证码！");
+            $("#register-image-code-err").show();
+            $(".get_code").attr("onclick", "sendSMSCode();");
             return;
         }
         if (!smscode) {
