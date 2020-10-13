@@ -1,7 +1,13 @@
 import re
 
-a = "123.png"
+import requests
+url = "http://tools.codetutor.top/web/datasource.json"
+url_1 = "http://tools.codetutor.top/web/index.html"
 
-b = re.search(r"\.+\w+", a)
+rep = requests.get(url_1).text
 
-print(b.group())
+# with open("search_txt", "a", encoding="utf-8")as f:
+# 	f.write(rep)
+# 	print("写入完璧")
+
+print(rep)

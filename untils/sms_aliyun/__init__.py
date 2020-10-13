@@ -6,6 +6,12 @@ from aliyunsdkcore.request import CommonRequest
 
 
 def send_msg_to_phone(phone_num, content):
+	"""
+
+	:param phone_num: 手机号
+	:param content: 短信码
+	:return:
+	"""
 	client = AcsClient ('LTAI4GJcCBqAEs63nNVNsJ63', 'hZXTnGJvkT54E6bqYH4jwAJO5Tc9Mx', 'cn-hangzhou')
 
 	request = CommonRequest ()
@@ -17,10 +23,10 @@ def send_msg_to_phone(phone_num, content):
 	request.set_action_name ('SendSms')
 
 	request.add_query_param ('RegionId', "cn-hangzhou")
-	request.add_query_param ('PhoneNumbers', "17708764930")
+	request.add_query_param ('PhoneNumbers', "%s" %phone_num)
 	request.add_query_param ('SignName', "jk4716138")
 	request.add_query_param ('TemplateCode', "SMS_167532197")
-	request.add_query_param ('TemplateParam', "{\"code\":\"112233\"}")
+	request.add_query_param ('TemplateParam', "{\"code\":\"%s\"}" %content)
 
 	response = client.do_action (request)
 	# python2:  print(response)

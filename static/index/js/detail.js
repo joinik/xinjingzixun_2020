@@ -261,7 +261,7 @@ $(function(){
 
         if(sHandler.indexOf('reply_sub')>=0)
         {
-            alert('回复评论');
+            // alert('回复评论');
             // 获取参数
             var $this = $(this);
             var news_id = $this.parent().attr('data-news-id');
@@ -333,6 +333,7 @@ $(function(){
 
                         // 更新页面的新闻评论数量
                         updateCommentCount();
+                        window.location.reload();
                     }
                     else {
                         // `回复评论`失败
