@@ -1,7 +1,7 @@
 from flask import render_template, jsonify, request, session
 
 from models import db
-from models.index import News, Comment, User
+from models.index import News, Comment, User, Category
 
 from . import index_blu
 
@@ -15,7 +15,11 @@ def index():
     user_id = session.get("user_id", 0)
     nick_name = session.get("nick_name", "")
 
-    return render_template("index/index.html", clicks_top_6_news=clicks_top_6_news, nick_name=nick_name)
+    # 查询news分类
+    categorys = db.session.query(Category).filter(Category.id != 1).all()
+
+
+    return render_template("index/index.html", clicks_top_6_news=clicks_top_6_news, nick_name=nick_name, categorys=categorys)
 
 
 @index_blu.route("/newslist")
