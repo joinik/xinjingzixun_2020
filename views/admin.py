@@ -1,7 +1,7 @@
 from flask import render_template, request, jsonify
 
 from models import db
-from models.index import User, Category
+from models.index import User, Category, News
 from . import admin_blu
 
 
@@ -20,16 +20,19 @@ def user_list():
 	page = int (request.args.get ("page", 1))
 
 	# 查询用户数据 列表
-	pag_users = db.session.query (User).filter ().paginate (page, 3, False)
+	pag_users = db.session.query (User).paginate (page, 3, False)
 
 	if pag_users:
 		pass
 	return render_template ("admin/user_list.html", pages=pag_users)
 
 
+# 新闻编辑
 @admin_blu.route ("/admin/news_edit.html")
 def news_edit():
-	return render_template ("admin/news_edit.html")
+	page = int(request.args.get("page", 1))
+	paginate = db.session.query(News).paginate(page, 5, False)
+	return render_template ("admin/news_edit.html", paginate=paginate)
 
 
 @admin_blu.route ("/admin/news_edit_detail.html")
@@ -53,6 +56,7 @@ def news_type():
 	return render_template ("admin/news_type.html", news_types=news_types)
 
 
+# news 分类
 @admin_blu.route ("/admin/news_type", methods=["POST"])
 def news_type_edit():
 	# 提取参数
