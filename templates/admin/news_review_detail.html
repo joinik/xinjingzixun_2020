@@ -45,14 +45,14 @@
             </div>
             <div class="form_group group_hide">
                 <label>拒绝原因：</label>
-                <textarea class="input_multxt" name="reason"></textarea>
+                <textarea class="input_multxt" name="reason" ></textarea>
             </div>
             <div class="form_group indent_group line_top">
                 <input type="submit" value="确定" class="confirm">
                 <input type="button" value="取消" class="cancel" onclick="cancel()">
             </div>
             <!-- 隐藏字段，用于记录当前新闻id -->
-            <input name="news_id" value="1" hidden>
+            <input name="news_id" value="{{ news.id }}" hidden>
             </form>    
         </div>
         
