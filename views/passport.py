@@ -2,6 +2,7 @@ from flask import request, jsonify, session, redirect, url_for, make_response
 from models import db
 from models.index import User
 from untils.sms_aliyun import send_msg_to_phone
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from . import passport_blu
 
@@ -46,7 +47,8 @@ def register():
 	# 将新用户的数据插入到数据库
 	user = User ()
 	user.nick_name = mobile
-	user.password_hash = password  # 在第2版中会进行更改，到时会变成加密的
+	# user.password_hash = password  # 在第2版中会进行更改，到时会变成加密的
+	user.password_hash = generate_password_hash (password)
 	user.mobile = mobile
 
 	try:
@@ -78,8 +80,8 @@ def login():
 	password = request.json.get ("password")
 
 	# 2. 查询，如果存在表示登录成功，否则失败
-	user = db.session.query (User).filter (User.mobile == mobile, User.password_hash == password).first ()
-	if user:
+	user = db.session.query (User).filter (User.mobile == mobile).first ()
+	if user and check_password_hash (user.password_hash, password):
 		ret = {
 			"errno": 0,
 			"errmsg": "登录成功"
@@ -155,7 +157,7 @@ def smscode():
 	session['sms_code'] = sms_code
 
 	# 5. 通过短信发送这个6位数
-	send_msg_to_phone (mobile, sms_code)
+	# send_msg_to_phone (mobile, sms_code)
 
 
 	ret = {

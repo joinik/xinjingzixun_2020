@@ -2,7 +2,7 @@ import hashlib
 import os
 import time
 
-from flask import jsonify, request, session, render_template, redirect, url_for
+from flask import jsonify, request, session, render_template, redirect, url_for, g
 
 from models import db
 from models.index import User, Follow, Category, News
@@ -26,7 +26,7 @@ def follow():
 	# 2. 提取当前登录用户的id
 	user_id = session.get ("user_id")
 
-	if not user_id:
+	if not g.user:
 		return jsonify ({
 			"errno": 3002,
 			"errmsg": "请用户您先进行登录----"
