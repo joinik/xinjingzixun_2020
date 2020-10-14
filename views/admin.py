@@ -12,7 +12,8 @@ def admin():
 
 @admin_blu.route ("/admin/user_count.html")
 def user_count():
-	return render_template ("admin/user_count.html")
+	user_count = db.session.query(User).count()
+	return render_template ("admin/user_count.html", user_count=user_count)
 
 
 @admin_blu.route ("/admin/user_list.html")
