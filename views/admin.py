@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from flask import render_template, request, jsonify
+from sqlalchemy import extract
 
 from models import db
 from models.index import User, Category, News
@@ -12,8 +15,22 @@ def admin():
 
 @admin_blu.route ("/admin/user_count.html")
 def user_count():
-	user_count = db.session.query(User).count()
-	return render_template ("admin/user_count.html", user_count=user_count)
+	# 统计 用户总数
+	user_count = db.session.query (User).count ()
+	# 统计当月用户的新增数量
+	now_date = datetime.now ()  # datetime
+	year = now_date.year
+	month = now_date.month
+	day = now_date.day
+	month_count = db.session.query (User).filter (extract ('year', User.create_time) == year,
+	                                              extract ('month', User.create_time) == month).count ()
+
+	# 统计当天用户的新增数量
+	day_count = db.session.query (User).filter (extract ('year', User.create_time) == year,
+	                                            extract ('month', User.create_time) == month,
+	                                            extract ('day', User.create_time) == day).count ()
+
+	return render_template ("admin/user_count.html", user_count=user_count, month_count=month_count, day_count=day_count)
 
 
 @admin_blu.route ("/admin/user_list.html")
@@ -114,7 +131,7 @@ def save_news_review_detail(news_id):
 		# 保存到数据库
 		db.session.commit ()
 	except Exception as e:
-		db.session.rollback()
+		db.session.rollback ()
 		return "请重新操作"
 
 	# 返回对应信息
