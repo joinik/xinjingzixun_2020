@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
+from flask_session import Session
 
 from untils.common import show_top_6_news_style, show_news_status_name, show_news_status_style_name, \
 	set_after_request_handle_fuc
@@ -22,6 +23,9 @@ app.config.from_pyfile ("config.ini")
 
 # db初始化配置App
 db.init_app (app)
+
+# 创建Session对象（此时app这个flask对象中生成的session信息才会存储到Redis里）
+Session(app)
 
 # 添加过滤器
 app.add_template_filter (show_top_6_news_style)

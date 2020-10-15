@@ -1,3 +1,5 @@
+import random
+
 from flask import request, jsonify, session, redirect, url_for, make_response
 from models import db
 from models.index import User
@@ -79,6 +81,10 @@ def login():
 	mobile = request.json.get ("mobile")
 	password = request.json.get ("password")
 
+	print("-----1------")
+	print(mobile)
+	print(password)
+
 	# 2. 查询，如果存在表示登录成功，否则失败
 	user = db.session.query (User).filter (User.mobile == mobile).first ()
 	if user and check_password_hash (user.password_hash, password):
@@ -152,6 +158,7 @@ def smscode():
 	# 3. 生成一个随机的6位数
 	sms_code = str (random.randint (100000, 999999))
 	print ("短信验证码是:", sms_code)
+	print("-----短信验证码----")
 
 	# 4. 存储到session中
 	session['sms_code'] = sms_code
