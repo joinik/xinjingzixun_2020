@@ -16,7 +16,7 @@ app.register_blueprint (index_blu)
 app.register_blueprint (passport_blu, url_prefix="/passport")
 app.register_blueprint (user_blu, url_prefix="/user")
 app.register_blueprint (news_blu, url_prefix="/news")
-app.register_blueprint (admin_blu, subdomain="admin")
+app.register_blueprint (admin_blu, url_prefix="/admin", subdomain="admin")
 
 # 加载配配信息
 app.config.from_pyfile ("config.ini")
