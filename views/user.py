@@ -10,7 +10,7 @@ from untils.image_qiniu import upload_image_to_qiniu
 from . import user_blu, index_blu
 
 
-@user_blu.route ("/user/follow", methods=["POST"])
+@user_blu.route ("/follow", methods=["POST"])
 def follow():
 	# 实现关注的流程
 	# 1. 提取当前作者的id
@@ -91,7 +91,7 @@ def follow():
 			return jsonify (ret)
 
 
-@user_blu.route ("/user/center")
+@user_blu.route ("/center")
 def user_center():
 	# 获取当前用户的信息
 	nick_name = session.get ("nick_name")
@@ -102,15 +102,15 @@ def user_center():
 	user_id = session.get ("user_id")
 	user = db.session.query (User).filter (User.id == user_id).first ()
 
-	return render_template ("index/user.html", nick_name=nick_name, user=user)
+	return render_template ("index.html", nick_name=nick_name, user=user)
 
 
-@user_blu.route ("/user/user_base_info")
+@user_blu.route ("_base_info")
 def user_base_info():
-	return render_template ("index/user_base_info.html")
+	return render_template ("index_base_info.html")
 
 
-@user_blu.route ("/user/basic", methods=["POST"])
+@user_blu.route ("/basic", methods=["POST"])
 def user_basic():
 	# 获取用户的新的信息
 	nick_name = request.json.get ("nick_name")
@@ -144,12 +144,12 @@ def user_basic():
 	return jsonify (ret)
 
 
-@user_blu.route ("/user/user_pass_info")
+@user_blu.route ("_pass_info")
 def user_pass_info():
-	return render_template ("index/user_pass_info.html")
+	return render_template ("index_pass_info.html")
 
 
-@user_blu.route ("/user/password", methods=["POST"])
+@user_blu.route ("/password", methods=["POST"])
 def user_password():
 	new_password = request.json.get ("new_password")
 	old_password = request.json.get ("old_password")
@@ -186,14 +186,14 @@ def user_password():
 	return jsonify (ret)
 
 
-@user_blu.route ("/user/user_pic_info")
+@user_blu.route ("_pic_info")
 def user_pic_info():
 	user_id = session.get ("user_id")
 	user = db.session.query (User).filter (User.id == user_id).first ()
-	return render_template ("index/user_pic_info.html", user=user)
+	return render_template ("index_pic_info.html", user=user)
 
 
-@user_blu.route ("/user/avatar", methods=["POST"])
+@user_blu.route ("/avatar", methods=["POST"])
 def user_avatar():
 	print (request.files)
 	print ("这是request.files——-------")
@@ -241,7 +241,7 @@ def user_avatar():
 	return jsonify (ret)
 
 
-@user_blu.route ("/user/user_follow")
+@user_blu.route ("_follow")
 def user_follow():
 	user_id = session.get ("user_id")
 
@@ -255,10 +255,10 @@ def user_follow():
 	page = int (request.args.get ('page', 1))
 	paginate = user.followers.paginate (page, 2, False)
 
-	return render_template ("index/user_follow.html", user=user, paginate=paginate)
+	return render_template ("index_follow.html", user=user, paginate=paginate)
 
 
-@user_blu.route ("/user/user_collection")
+@user_blu.route ("_collection")
 def user_collection():
 	# 获取页码
 	page = int (request.args.get ("page", 1))
@@ -268,16 +268,16 @@ def user_collection():
 	# 查询用户收藏的文章
 
 	paginate = user.collection_news.paginate (page, 1, False)
-	return render_template ("index/user_collection.html", paginate=paginate)
+	return render_template ("index_collection.html", paginate=paginate)
 
 
-@user_blu.route ("/user/user_news_release")
+@user_blu.route ("_news_release")
 def user_news_release():
 	category_list = db.session.query (Category).filter (Category.id != 1).all ()
-	return render_template ("index/user_news_release.html", category_list=category_list)
+	return render_template ("index_news_release.html", category_list=category_list)
 
 
-@user_blu.route ("/user/release", methods=["POST"])
+@user_blu.route ("/release", methods=["POST"])
 def new_release():
 	title = request.form.get ("title")
 	category = request.form.get ("category")
@@ -323,7 +323,7 @@ def new_release():
 		return jsonify (ret)
 
 
-@user_blu.route ("/user/user_news_list")
+@user_blu.route ("_news_list")
 def user_news_list():
 	# 查询当前用户
 	page = int(request.args.get("page", 1))
@@ -331,4 +331,4 @@ def user_news_list():
 	user = db.session.query (User).filter (User.id == user_id).first ()
 	# 获取当前用户的所有新闻
 	news_paginate = user.news.paginate(page, 6, False)
-	return render_template ("index/user_news_list.html", news_paginate=news_paginate)
+	return render_template ("index_news_list.html", news_paginate=news_paginate)

@@ -333,7 +333,7 @@ $(function(){
 
                         // 更新页面的新闻评论数量
                         updateCommentCount();
-                        window.location.reload();
+
                     }
                     else {
                         // `回复评论`失败

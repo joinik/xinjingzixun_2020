@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import passport_blu
 
 
-@passport_blu.route ("/passport/register", methods=["GET", "POST"])
+@passport_blu.route ("/register", methods=["GET", "POST"])
 def register():
 	# 1. 提取数据
 	mobile = request.json.get ("mobile")
@@ -75,7 +75,7 @@ def register():
 	return jsonify (ret)
 
 
-@passport_blu.route ("/passport/login", methods=["GET", "POST"])
+@passport_blu.route ("/login", methods=["GET", "POST"])
 def login():
 	# 1. 提取登录时的用户名，密码
 	mobile = request.json.get ("mobile")
@@ -103,7 +103,7 @@ def login():
 	return jsonify (ret)
 
 
-@passport_blu.route ("/passport/logout")
+@passport_blu.route ("/logout")
 def logout():
 	# 清空登录状态
 	session.clear ()
@@ -111,7 +111,7 @@ def logout():
 	return redirect (url_for ('index_blu.index'))
 
 
-@passport_blu.route ("/passport/image_code")
+@passport_blu.route ("/image_code")
 def image_code():
 	# 读取一个图片
 	# with open ("./yanzhengma.png", "rb") as f:
@@ -138,7 +138,7 @@ def image_code():
 	return resp
 
 
-@passport_blu.route ("/passport/smscode", methods=["POST"])
+@passport_blu.route ("/smscode", methods=["POST"])
 def smscode():
 	# 1. 提取数据
 	image_code = request.json.get ("image_code")

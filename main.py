@@ -4,7 +4,7 @@ from flask_script import Manager
 from flask_session import Session
 
 from untils.common import show_top_6_news_style, show_news_status_name, show_news_status_style_name, \
-	set_after_request_handle_fuc
+	set_before_request_handle_fuc
 from views import index_blu, passport_blu, user_blu, news_blu, admin_blu
 from models import db
 
@@ -13,10 +13,10 @@ app = Flask (__name__)
 
 # 注册蓝图
 app.register_blueprint (index_blu)
-app.register_blueprint (passport_blu)
-app.register_blueprint (user_blu)
-app.register_blueprint (news_blu)
-app.register_blueprint (admin_blu)
+app.register_blueprint (passport_blu, url_prefix="/passport")
+app.register_blueprint (user_blu, url_prefix="/user")
+app.register_blueprint (news_blu, url_prefix="/news")
+app.register_blueprint (admin_blu, subdomain="admin")
 
 # 加载配配信息
 app.config.from_pyfile ("config.ini")
@@ -33,7 +33,7 @@ app.add_template_filter (show_news_status_name)
 app.add_template_filter (show_news_status_style_name)
 
 # 设置钩子函数，可以在调用视图函数之前自动执行
-set_after_request_handle_fuc (app)
+set_before_request_handle_fuc (app)
 
 # 添加数据库迁移工具
 manager = Manager (app)
