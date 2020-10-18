@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 
-from flask import render_template, request, jsonify, redirect, session, g
+from flask import render_template, request, jsonify, redirect, session, g, url_for
 from sqlalchemy import extract
+from werkzeug.security import check_password_hash
 
 from models import db
 from models.index import User, Category, News
@@ -12,13 +13,11 @@ from . import admin_blu
 def admin():
 	# 使用g 变量
 	if (not g.user) or (not g.user.is_admin):
-		print("不是管理员-----")
+		print ("不是管理员-----")
 		# 如果用户未登录，那么直接跳转到前台首页
 		return redirect ("index_blu.index")
 
 	return render_template ("admin/index.html", user=g.user)
-
-
 
 
 @admin_blu.route ("/user_count.html")
@@ -63,8 +62,6 @@ def user_count():
 		# 保存当前日期
 		date_str = cur_date.strftime ('%Y-%m-%d')
 		date_li.append (date_str)
-
-
 
 	return render_template ("admin/user_count.html", user_count=user_count, month_count=month_count,
 	                        day_count=day_count, counts_li=counts_li, date_li=date_li)
@@ -164,7 +161,7 @@ def save_news_review_detail(news_id):
 		news.status = 0
 	else:
 		news.status = -1
-		reason = request.json.get("reason")
+		reason = request.json.get ("reason")
 		news.reason = reason
 	try:
 		# 保存到数据库
@@ -227,3 +224,20 @@ def news_type_edit():
 		}
 
 		return jsonify (ret)
+
+
+@admin_blu.route ("/login", methods=["GET", "POST"])
+def login():
+	if request.method == "GET":
+		return render_template ("admin/login.html")
+	else:
+		user_name = request.form.get ("username")
+		password = request.form.get ("password")
+		user = db.session.query (User).filter (User.nick_name == user_name, User.is_admin == 1).first ()
+		if user and check_password_hash (user.password_hash, password):
+			session['is_admin'] = True  # 用来标记是超级管理员
+			if not session.get ("user_id"):
+				session['user_id'] = user.id
+				session['nick_name'] = user.nick_name
+
+	return redirect (url_for ("admin_blu.admin"))
